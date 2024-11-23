@@ -1,4 +1,4 @@
-# Python API template with REDIS DB
+# TechChill student challenge python API with REDIS DB
 
 Simple python API, to kickstart any project that requires API and database
 

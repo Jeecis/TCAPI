@@ -3,3 +3,4 @@ _*
 letsencrypt/
 *.json
 acme.json
+!.vscode/

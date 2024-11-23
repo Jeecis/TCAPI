@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "program": "app/app.py",  // Entry point of your Flask app
+            "args": [
+                "run",
+                "--host=127.0.0.1",
+                "--port=5000"
+            ],
+            "env": {
+                "REDIS_HOST": "127.0.0.1",
+                "REDIS_PORT": "6379"
+            },
+            "console": "integratedTerminal"
+        }
+    ]
+}
