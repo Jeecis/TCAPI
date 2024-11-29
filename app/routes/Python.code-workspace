@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Python",
+			"path": "../.."
+		},
+		{
+			"name": "letsencrypt",
+			"path": "../../../../../../Downloads/letsencrypt"
+		}
+	],
+	"settings": {}
+}
