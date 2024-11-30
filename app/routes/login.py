@@ -21,7 +21,7 @@ def register():
     return jsonify({"message": "User added successfully", "user": name}), 201
 
 
-@login_blueprint.route('/user/login', methods=['GET'])
+@login_blueprint.route('/user/login', methods=['PUT'])
 def login():
     record_data = json.loads(request.data)
     name = record_data.get('name')
@@ -38,6 +38,26 @@ def login():
             return jsonify({"Error": "Error occurred while reading Redis entry"}), 500
         
     return jsonify("Success")
+
+@login_blueprint.route('/user', methods=['DELETE'])
+def delete_user():
+    record_data = json.loads(request.data)
+    name = record_data.get('name')
+    password = record_data.get('password')
+
+    status = Login(name, password)
+
+    match(status):
+        case 404:
+            return jsonify({"Error": f"No user found for name {name}"}), 404
+        case 401:
+            return jsonify({"Error": f"Invalid password"}), 401
+        case 500:
+            return jsonify({"Error": "Error occurred while reading Redis entry"}), 500
+        
+    user_redis.delete(name)
+        
+    return jsonify(f"User {name} deleted")
 
 def checkExistance(name):
     exists = user_redis.get(name)
