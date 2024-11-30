@@ -4,6 +4,9 @@ from redis_client import user_redis, booking_redis
 import time
 import random
 from datetime import datetime
+import smtplib
+import ssl
+from email.message import EmailMessage
 
 booking_blueprint = Blueprint('booking', __name__)
 
@@ -48,6 +51,8 @@ def add_booking():
 
     # Create the Redis key
     key = f"{roomID}:{code}"
+
+    send_email(email, code)
 
     try:
         booking_redis.setex(key, time, json.dumps(new_booking))  # Assuming 'time' is in minutes
@@ -139,3 +144,37 @@ def generateCode():
         
         if not any(matching_keys):  # If no matching key exists
             return code
+
+def send_email(receiver_email, pin_code):
+    
+    body_template = """
+    <html>
+    <body>
+
+    <h1>Your pin code is {pin_code}</h1>
+    
+    </body>
+    </html>
+    """
+
+    body=body_template.format(
+        pin_code=pin_code
+    )
+
+
+
+    em = EmailMessage()
+    em['From'] = "cryptoemail377@gmail.com"
+    em['To'] = receiver_email
+    em['Subject'] = "Your pin code"
+    em.add_alternative(body, subtype='html')
+
+    context = ssl.create_default_context()
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+            smtp.login("cryptoemail377@gmail.com", "durh yszf uljk xwet")
+            smtp.send_message(em)
+            print(f"Email sent successfully to {receiver_email}")
+    except Exception as e:
+        print(f"Error sending email to {receiver_email}: {e}")
+        raise
