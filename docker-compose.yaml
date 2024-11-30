@@ -80,7 +80,7 @@ services:
 networks:
   web:
     driver: bridge
-
+    
 volumes:
   user_data:
   booking_data:

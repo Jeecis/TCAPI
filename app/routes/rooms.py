@@ -107,7 +107,7 @@ def get_inventory():
     except Exception as e:
         return jsonify({"error": f"Error occurred: {str(e)}"}), 500
     
-@rooms_blueprint.route('/inventory/list', methods=['PUT'])
+@rooms_blueprint.route('/inventory/list', methods=['GET'])
 def get_all_inventory():
     records_list = []
     try:
